@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1538158032923.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4289371760",
+    "id" : "BE4BA5E6",
+    "lastKnownWriteTime" : 1538156938,
+    "last_content_update" : 1540324551699,
+    "path" : "~/Downloads/DM_Project_1/DM_Project1.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "25,6",
+        "scrollLine" : "12"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

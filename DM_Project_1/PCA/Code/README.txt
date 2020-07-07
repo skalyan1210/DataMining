@@ -1,0 +1,5 @@
+1. Install the latest versions of R (3.5.1) and R Studio (IDE) on your computer. 
+2. Open the R Markdown (.rmd) file (File -> Open File). R Studio installs all the necessary packages for R markdown if you are opening it for the first time.
+3. Install the necessary packages namely “ggplot2” (used for plotting), “Rtsne” (used to implement T-SNE algorithm) by using the following command in the console.      Install.packages(“name_of_the_package”)
+4. Each segment of the code can be run individually by clicking the run icon present at the right end of the segment.
+5. The output of every segment can be seen right below the segment after running the code.6. Before changing the dataset please clear all the environment variables by typing the following command on the console. (Recommended)      rm(list=ls())

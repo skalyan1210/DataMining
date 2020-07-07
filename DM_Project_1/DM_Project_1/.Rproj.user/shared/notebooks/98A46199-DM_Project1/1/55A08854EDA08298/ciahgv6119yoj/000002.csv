@@ -1,0 +1,8 @@
+"0","#function for calculating the mean-subtrachtion matrix (x'=x-mean)"
+"0","normalize <- function(dataset)"
+"0","{ means<- colMeans(dataset)"
+"0","  for(i in 1:ncol(dataset))"
+"0","  { m <- dataset[,i]- means[i]"
+"0","  dataset[,i] <- m}"
+"0","  return(dataset)"
+"0","}"

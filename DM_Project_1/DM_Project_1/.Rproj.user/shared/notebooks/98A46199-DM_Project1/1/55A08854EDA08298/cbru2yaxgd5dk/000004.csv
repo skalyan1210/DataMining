@@ -1,0 +1,3 @@
+"0","#importing the dataset"
+"0","dataset <- read.table(file.choose(),header=FALSE, sep=""\t"") "
+"0","dataset"

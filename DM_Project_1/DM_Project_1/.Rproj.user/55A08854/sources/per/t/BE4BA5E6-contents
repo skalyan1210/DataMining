@@ -1,0 +1,99 @@
+PCA Implementation
+```{r}
+#importing the dataset
+dataset <- read.table(file.choose(),header=FALSE, sep="\t") 
+dataset
+```
+
+```{r}
+#taking all the variables except disease
+dataset1<- dataset[,1:ncol(dataset)-1]
+dataset1
+```
+
+```{r}
+#function for calculating the mean-subtrachtion matrix (x'=x-mean)
+normalize <- function(dataset)
+{ means<- colMeans(dataset)
+  for(i in 1:ncol(dataset))
+  { m <- dataset[,i]- means[i]
+  dataset[,i] <- m}
+  return(dataset)
+}
+
+```
+
+```{r}
+#function for calculating the new variables (y1=a11x1+a12x2+……+a1nxn)
+final_data <- function(dataset,n,eigen_vectors)
+{   f <- dataset
+  for (i in 1:n) {
+    f[,i] <- data.frame(rowSums(t(t(dataset)*eigen_vectors[i,])))
+  }
+f[,c(n+1:ncol(dataset))]<-NULL #nullifying the remaining variables except first two
+  return(f)
+}
+```
+
+```{r}
+#calculating the covariance matrix
+covariance_matrix <- cov(normalize(dataset1))
+covariance_matrix
+#eigen vectors and the eigen values
+ev <- eigen(covariance_matrix)
+eigen_values <- ev$values
+eigen_vectors<- ev$vectors
+eigen_values
+eigen_vectors
+```
+
+```{r}
+final_dataset <- final_data(dataset1,2,eigen_vectors) #calling the function that we defined
+final_dataset[,ncol(final_dataset)+1] <- dataset[,ncol(dataset)] #adding the last column (diseases) to the final dataset again 
+final_dataset
+```
+
+```{r}
+#plotting PCA
+library("ggplot2")
+ggplot(final_dataset, aes(V1,V2, colour= V3))+geom_point()+xlab("FEATURE-1")+ylab("FEATURE-2")+ggtitle("PCA")+labs(colour = "Diseases")
+```
+SVD Implementation
+```{r}
+dataset2 <- dataset
+#use the sweep function to perform arbitrary operations on the rows and columns of a matrix.
+sweep <- sweep(dataset2[,1:ncol(dataset2)-1],2,colMeans(dataset2[,1:ncol(dataset2)-1]),"-")
+svd <- svd(sweep)
+qplot(svd$u[, 1], svd$u[, 2], col = dataset2[,ncol(dataset2)], main = "SVD", xlab = "FEATURE-1", ylab = "FEATURE-2")+labs(colour="Diseases")
+```
+T-SNE Implementation
+```{r}
+dataset3<- dataset
+library(Rtsne)
+set.seed(5000)
+tsne <- Rtsne(dataset3[,-1],dims=2,check_duplicates=FALSE,theta=0.0)
+qplot(tsne$Y[, 1], tsne$Y[, 2], col = dataset3[,ncol(dataset3)], main = "T-SNE", xlab = "FEATURE-1", ylab = "FEATURE-2")+labs(colour="Diseases")
+```
+
+```{r}
+#testing example
+x1<- read.csv(file.choose())
+x1
+x2<-x1
+```
+
+```{r}
+x1$x3<-NULL
+d <- normalize(x1)
+d 
+e <- cov(d)
+e
+e1 <- eigen(e)
+eigen_values1 <- e1$values
+eigen_vectors1<-e1$vectors
+p <- final(d,1,eigen_vectors1)
+p[,ncol(p)+1] <- x2[,ncol(x2)]
+p
+```
+
+

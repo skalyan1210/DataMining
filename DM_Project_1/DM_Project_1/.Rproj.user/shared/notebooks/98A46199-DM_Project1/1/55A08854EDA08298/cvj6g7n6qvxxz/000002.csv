@@ -1,0 +1,3 @@
+"0","#plotting PCA"
+"0","library(""ggplot2"")"
+"0","ggplot(final_dataset, aes(V1,V2, colour= V3))+geom_point()+xlab(""FEATURE-1"")+ylab(""FEATURE-2"")+ggtitle(""PCA"")+labs(colour = ""Diseases"")"

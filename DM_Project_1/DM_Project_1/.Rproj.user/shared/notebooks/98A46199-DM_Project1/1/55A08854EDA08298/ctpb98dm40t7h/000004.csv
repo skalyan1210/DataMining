@@ -1,0 +1,3 @@
+"0","#taking all the variables except disease"
+"0","dataset1<- dataset[,1:ncol(dataset)-1]"
+"0","dataset1"
