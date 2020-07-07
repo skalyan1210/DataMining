@@ -1,0 +1,1 @@
+From the link below please install the anaconda navigator by following the instructionshttps://docs.anaconda.com/anaconda/navigator/After the installation please open the Jupyter console which can be seen on the anaconda navigator homescreen.Navigate to the file and click on Kernel in the menu bar and click on the “Restart and Run All” option
