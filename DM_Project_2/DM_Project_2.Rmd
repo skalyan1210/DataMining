@@ -1,0 +1,76 @@
+PCA Implementation
+```{r}
+#importing the dataset
+dataset <- read.table(file.choose(),header=FALSE, sep="\t") 
+dataset
+```
+
+```{r}
+dataset_ext <- read.table(file.choose(),header=FALSE, sep="\t") 
+dataset_ext
+```
+
+```{r}
+dataset1<- dataset[,3:ncol(dataset)]
+dataset2 <- dataset1
+dataset2
+```
+
+```{r}
+#function for calculating the mean-subtrachtion matrix (x'=x-mean)
+normalize <- function(dataset)
+{ means<- colMeans(dataset)
+  for(i in 1:ncol(dataset))
+  { m <- dataset[,i]- means[i]
+  dataset[,i] <- m}
+  return(dataset)
+}
+```
+
+```{r}
+#function for calculating the new variables (y1=a11x1+a12x2+……+a1nxn)
+final_data <- function(dataset,n,eigen_vectors)
+{   f <- dataset
+  for (i in 1:n) {
+    f[,i] <- data.frame(rowSums(t(t(dataset)*eigen_vectors[i,])))
+  }
+f[,c(n+1:ncol(dataset))]<-NULL #nullifying the remaining variables except first two
+  return(f)
+}
+```
+
+```{r}
+#calculating the covariance matrix
+covariance_matrix <- cov(normalize(dataset2))
+covariance_matrix
+#eigen vectors and the eigen values
+ev <- eigen(covariance_matrix)
+eigen_values <- ev$values
+eigen_vectors<- ev$vectors
+eigen_values
+eigen_vectors
+```
+
+```{r}
+final_dataset <- final_data(normalize(dataset2),2,eigen_vectors) #calling the function that we defined
+final_dataset[,ncol(final_dataset)+1] <- dataset_ext #adding the last column (diseases) to the final dataset again 
+final_dataset
+final_dataset2 <- final_dataset
+final_dataset2 <- final_dataset2[final_dataset2$V1 > -1,] 
+final_dataset2
+```
+
+```{r}
+library(ggplot2)
+print(unique(final_dataset$V1))
+ggplot( final_dataset, aes( x = V3, y = V4, colour = factor(V1), shape = factor(V1))) +geom_point(size =3) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())+ggtitle("PCA-Plot")+labs(colour = "CLUSTERS")+ 
+scale_colour_manual(name = "Clusters",labels = sort(unique(final_dataset$V1)),values = c("skyblue", "blue","red","forestgreen","black","purple","chocolate4","firebrick4","cadetblue4","bisque4")) + scale_shape_manual(name = "Clusters",labels =  sort(unique(final_dataset$V1)), values = c(16, 15, 18, 17, 16, 19, 11, 9, 7, 10))
+   
+```
+
+```{r}
+ggplot( final_dataset2, aes( x = V3, y = V4, colour = factor(V1), shape = factor(V1))) +geom_point(size =3) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())+ggtitle("DBSCAN-PCA-Plot")+labs(colour = "CLUSTERS")+
+scale_colour_manual(name = "Clusters",labels = sort(unique(final_dataset2$V1)),values = c( "blue","red","forestgreen","black","purple","chocolate4","firebrick4","cadetblue4","bisque4")) + scale_shape_manual(name = "Clusters",labels =  sort(unique(final_dataset2$V1)), values = c( 15, 18, 17, 16 , 19, 11, 9, 7, 10))
+```
+
+
